@@ -1,0 +1,19 @@
+[Unit]
+Description=Wallabag read-it-later service
+After=network-online.target
+After=wallabag-redis.service
+
+[Container]
+Image=wallabag/wallabag
+PublishPort=127.0.0.1:3008:80
+Volume=%h/volumes/wallabag/data:/var/www/wallabag/data
+Volume=%h/volumes/wallabag/images:/var/www/wallabag/web/assets/images
+Environment=SYMFONY__ENV__DOMAIN_NAME=https://wallabag.example.com
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

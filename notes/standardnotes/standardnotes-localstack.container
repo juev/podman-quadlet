@@ -1,0 +1,16 @@
+[Unit]
+Description=Standard Notes LocalStack
+After=network-online.target
+
+[Container]
+Image=docker.io/localstack/localstack:3
+Environment=SERVICES=sns,sqs,s3
+Environment=HOSTNAME_EXTERNAL=localstack
+Network=caddy.network
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

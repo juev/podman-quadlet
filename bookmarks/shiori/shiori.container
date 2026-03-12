@@ -1,0 +1,15 @@
+[Unit]
+Description=Shiori bookmark manager
+After=network-online.target
+
+[Container]
+Image=ghcr.io/go-shiori/shiori
+Volume=%h/volumes/shiori/data:/shiori
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,15 @@
+[Unit]
+Description=Redis for Wallabag
+After=network-online.target
+
+[Container]
+Image=redis:alpine
+Volume=%h/volumes/wallabag/redis:/data
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

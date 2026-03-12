@@ -1,0 +1,15 @@
+[Unit]
+Description=MariaDB for LinkAce
+After=network-online.target
+
+[Container]
+Image=mariadb:11
+Volume=%h/volumes/linkace/db:/var/lib/mysql
+EnvironmentFile=%h/volumes/linkace/.env
+Network=caddy.network
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

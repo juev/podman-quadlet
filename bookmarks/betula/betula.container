@@ -1,0 +1,16 @@
+[Unit]
+Description=Betula bookmarks
+After=network-online.target
+
+[Container]
+Image=localhost/betula:latest
+PublishPort=127.0.0.1:1738:1738
+Volume=%h/volumes/betula/data:/data
+UserNS=keep-id
+Network=caddy.network
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

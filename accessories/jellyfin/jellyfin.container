@@ -1,0 +1,17 @@
+[Unit]
+Description=Jellyfin - media server
+
+[Container]
+Image=jellyfin/jellyfin
+Volume=%h/volumes/jellyfin/config:/config
+Volume=%h/volumes/jellyfin/cache:/cache
+Volume=%h/volumes/jellyfin/media:/media:ro
+Network=caddy.network
+UserNS=keep-id
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,21 @@
+[Unit]
+Description=Standard Notes Server
+After=network-online.target
+After=standardnotes-db.service
+After=standardnotes-redis.service
+After=standardnotes-localstack.service
+
+[Container]
+Image=docker.io/standardnotes/server
+PublishPort=127.0.0.1:3000:3000
+Volume=%h/volumes/standardnotes/logs:/var/lib/server/logs
+Volume=%h/volumes/standardnotes/uploads:/opt/server/packages/files/dist/uploads
+EnvironmentFile=%h/volumes/standardnotes/.env
+Network=caddy.network
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

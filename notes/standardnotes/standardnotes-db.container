@@ -1,0 +1,16 @@
+[Unit]
+Description=Standard Notes MySQL
+After=network-online.target
+
+[Container]
+Image=docker.io/library/mysql:8
+Volume=%h/volumes/standardnotes/mysql:/var/lib/mysql
+EnvironmentFile=%h/volumes/standardnotes/.env
+Network=caddy.network
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

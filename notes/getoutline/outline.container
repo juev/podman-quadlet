@@ -1,0 +1,20 @@
+[Unit]
+Description=Outline Wiki
+After=network-online.target
+After=outline-db.service
+After=outline-redis.service
+
+[Container]
+Image=docker.getoutline.com/outlinewiki/outline:latest
+PublishPort=127.0.0.1:3000:3000
+Volume=%h/volumes/outline/storage:/var/lib/outline/data
+EnvironmentFile=%h/volumes/outline/.env
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

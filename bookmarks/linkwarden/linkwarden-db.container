@@ -1,0 +1,15 @@
+[Unit]
+Description=PostgreSQL for Linkwarden
+After=network-online.target
+
+[Container]
+Image=postgres:16-alpine
+Volume=%h/volumes/linkwarden/pgdata:/var/lib/postgresql/data
+EnvironmentFile=%h/volumes/linkwarden/.env
+Network=caddy.network
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

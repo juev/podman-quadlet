@@ -1,0 +1,14 @@
+[Unit]
+Description=Valkey - Redis-compatible key-value store for SearXNG
+
+[Container]
+Image=valkey/valkey:8-alpine
+Volume=%h/volumes/searxng/valkey:/data
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

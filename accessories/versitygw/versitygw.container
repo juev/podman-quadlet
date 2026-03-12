@@ -1,0 +1,17 @@
+[Unit]
+Description=VersityGW - S3-compatible gateway
+
+[Container]
+Image=ghcr.io/versity/versitygw:latest
+Exec=posix /tmp/gw
+Volume=%h/volumes/versitygw/data:/tmp/gw
+Environment=AWS_ACCESS_KEY_ID=admin
+Environment=AWS_SECRET_ACCESS_KEY=admin
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

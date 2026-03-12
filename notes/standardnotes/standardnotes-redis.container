@@ -1,0 +1,15 @@
+[Unit]
+Description=Standard Notes Redis
+After=network-online.target
+
+[Container]
+Image=docker.io/library/redis:6-alpine
+Volume=%h/volumes/standardnotes/redis:/data
+Network=caddy.network
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

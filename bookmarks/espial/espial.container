@@ -1,0 +1,16 @@
+[Unit]
+Description=Espial bookmark manager
+After=network-online.target
+
+[Container]
+Image=jonschoning/espial:espial
+Volume=%h/volumes/espial/data:/app/data
+Environment=SQLITE_DATABASE=/app/data/espial.db
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

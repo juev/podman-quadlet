@@ -1,0 +1,25 @@
+[Unit]
+Description=WireGuard VPN
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=lscr.io/linuxserver/wireguard
+PublishPort=51820:51820/udp
+Volume=%h/volumes/wireguard/config:/config
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=UTC
+Environment=SERVERURL=auto
+Environment=SERVERPORT=51820
+Environment=PEERS=3
+AddCapability=NET_ADMIN
+AddCapability=SYS_MODULE
+Sysctl=net.ipv4.conf.all.src_valid_mark=1
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target

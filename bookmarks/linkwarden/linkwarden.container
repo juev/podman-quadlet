@@ -1,0 +1,18 @@
+[Unit]
+Description=Linkwarden bookmark manager
+After=network-online.target
+After=linkwarden-db.service
+
+[Container]
+Image=ghcr.io/linkwarden/linkwarden:latest
+PublishPort=127.0.0.1:3000:3000
+Volume=%h/volumes/linkwarden/data:/data/data
+EnvironmentFile=%h/volumes/linkwarden/.env
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

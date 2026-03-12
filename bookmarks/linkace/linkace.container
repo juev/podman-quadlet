@@ -1,0 +1,18 @@
+[Unit]
+Description=LinkAce bookmark manager
+After=network-online.target
+After=linkace-db.service
+After=linkace-redis.service
+
+[Container]
+Image=linkace/linkace:latest
+EnvironmentFile=%h/volumes/linkace/.env
+Volume=%h/volumes/linkace/backups:/app/storage/app/backups
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

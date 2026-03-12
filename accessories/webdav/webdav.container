@@ -1,0 +1,18 @@
+[Unit]
+Description=WebDAV server
+
+[Container]
+Image=bytemark/webdav
+PublishPort=127.0.0.1:3002:80
+Volume=%h/volumes/webdav/data:/var/lib/dav
+Environment=AUTH_TYPE=Digest
+Environment=USERNAME=admin
+Environment=PASSWORD=admin
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,18 @@
+[Unit]
+Description=Mycorrhiza Wiki
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=localhost/mycorrhiza:latest
+PublishPort=127.0.0.1:1737:1737
+Volume=%h/volumes/mycorrhiza/wiki:/wiki
+UserNS=keep-id
+Network=caddy.network
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target

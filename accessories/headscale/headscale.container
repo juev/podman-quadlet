@@ -1,0 +1,18 @@
+[Unit]
+Description=Headscale - self-hosted Tailscale control server
+After=network-online.target
+
+[Container]
+Image=headscale/headscale:latest
+Exec=serve
+Volume=%h/volumes/headscale/config:/etc/headscale
+Volume=%h/volumes/headscale/data:/var/lib/headscale
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target

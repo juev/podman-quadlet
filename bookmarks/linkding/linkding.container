@@ -1,0 +1,16 @@
+[Unit]
+Description=Linkding bookmark manager
+After=network-online.target
+
+[Container]
+Image=sissbruecker/linkding:latest
+PublishPort=127.0.0.1:3006:9090
+Volume=%h/volumes/linkding/data:/etc/linkding/data
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

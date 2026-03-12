@@ -1,0 +1,15 @@
+[Unit]
+Description=Outline Redis
+After=network-online.target
+
+[Container]
+Image=docker.io/library/redis:7-alpine
+Network=caddy.network
+HealthCmd=redis-cli ping
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

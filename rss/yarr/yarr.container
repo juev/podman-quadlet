@@ -1,0 +1,17 @@
+[Unit]
+Description=Yarr RSS Reader
+After=network-online.target
+
+[Container]
+Image=localhost/yarr:latest
+PublishPort=127.0.0.1:7070:7070
+Volume=%h/volumes/yarr/data:/data
+UserNS=keep-id
+Network=caddy.network
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

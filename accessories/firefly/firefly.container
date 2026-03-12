@@ -1,0 +1,15 @@
+[Unit]
+Description=Firefly III - personal finance manager
+After=firefly-db.service
+
+[Container]
+Image=fireflyiii/core:latest
+EnvironmentFile=%h/.config/containers/systemd/configs/firefly/firefly.env
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

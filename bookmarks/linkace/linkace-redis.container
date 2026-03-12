@@ -1,0 +1,14 @@
+[Unit]
+Description=Redis for LinkAce
+After=network-online.target
+
+[Container]
+Image=redis:7-alpine
+Volume=%h/volumes/linkace/redis:/data
+Network=caddy.network
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

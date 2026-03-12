@@ -1,0 +1,13 @@
+[Unit]
+Description=MTG - Telegram proxy
+
+[Container]
+Image=nineseconds/mtg:stable
+PublishPort=443:443
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

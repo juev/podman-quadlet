@@ -1,0 +1,16 @@
+[Unit]
+Description=SearXNG - privacy-respecting metasearch engine
+After=valkey.service
+
+[Container]
+Image=searxng/searxng
+PublishPort=127.0.0.1:3007:8080
+Volume=%h/.config/containers/systemd/configs/searxng:/etc/searxng:ro
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

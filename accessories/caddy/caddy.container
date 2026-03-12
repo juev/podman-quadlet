@@ -1,0 +1,21 @@
+[Unit]
+Description=Caddy reverse proxy
+After=network-online.target
+
+[Container]
+Image=caddy:latest
+PublishPort=80:80
+PublishPort=443:443
+PublishPort=443:443/udp
+Volume=%h/.config/containers/systemd/configs/Caddyfile:/etc/caddy/Caddyfile:ro
+Volume=%h/volumes/caddy/data:/data
+Volume=%h/volumes/caddy/config:/config
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target

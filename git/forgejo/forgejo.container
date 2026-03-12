@@ -1,0 +1,17 @@
+[Unit]
+Description=Forgejo git service
+After=network-online.target
+
+[Container]
+Image=codeberg.org/forgejo/forgejo:9
+Volume=%h/volumes/forgejo/data:/data
+Volume=%h/volumes/forgejo/config:/etc/gitea
+Network=caddy.network
+UserNS=keep-id:uid=1000,gid=1000
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

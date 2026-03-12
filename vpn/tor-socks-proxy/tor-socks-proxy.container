@@ -1,0 +1,18 @@
+[Unit]
+Description=Tor SOCKS Proxy
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=ghcr.io/peterdavehello/tor-socks-proxy
+PublishPort=127.0.0.1:8853:53/udp
+PublishPort=127.0.0.1:9150:9150/tcp
+Volume=%h/volumes/tor/torrc:/etc/tor/torrc:ro
+AutoUpdate=registry
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target
