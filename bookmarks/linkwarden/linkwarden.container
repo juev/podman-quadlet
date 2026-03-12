@@ -9,6 +9,7 @@ PublishPort=127.0.0.1:3000:3000
 Volume=%h/volumes/linkwarden/data:/data/data
 EnvironmentFile=%h/volumes/linkwarden/.env
 Network=caddy.network
+Network=linkwarden.network
 AutoUpdate=registry
 
 [Service]

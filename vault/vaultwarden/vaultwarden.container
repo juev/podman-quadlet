@@ -6,7 +6,7 @@ After=network-online.target
 Image=docker.io/vaultwarden/server:latest
 PublishPort=127.0.0.1:3004:80
 Volume=%h/volumes/vaultwarden/data:/data
-Environment=DOMAIN=https://vault.example.com
+EnvironmentFile=%h/volumes/vaultwarden/.env
 Network=caddy.network
 AutoUpdate=registry
 

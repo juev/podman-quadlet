@@ -6,7 +6,7 @@ After=network-online.target
 Image=docker.io/rook1e404/fusion:latest
 PublishPort=127.0.0.1:8080:8080
 Volume=%h/volumes/fusion/data:/data
-Environment=PASSWORD=changeme
+EnvironmentFile=%h/volumes/fusion/.env
 Network=caddy.network
 AutoUpdate=registry
 

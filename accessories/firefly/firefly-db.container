@@ -4,10 +4,8 @@ Description=PostgreSQL for Firefly III
 [Container]
 Image=postgres:16-alpine
 Volume=%h/volumes/firefly/db:/var/lib/postgresql/data
-Environment=POSTGRES_DB=firefly
-Environment=POSTGRES_USER=firefly
-Environment=POSTGRES_PASSWORD=firefly
-Network=caddy.network
+EnvironmentFile=%h/volumes/firefly/.env
+Network=firefly.network
 AutoUpdate=registry
 
 [Service]

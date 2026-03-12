@@ -10,6 +10,7 @@ PublishPort=127.0.0.1:3000:3000
 Volume=%h/volumes/outline/storage:/var/lib/outline/data
 EnvironmentFile=%h/volumes/outline/.env
 Network=caddy.network
+Network=outline.network
 AutoUpdate=registry
 
 [Service]

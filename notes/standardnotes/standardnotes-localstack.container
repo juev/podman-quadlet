@@ -6,7 +6,7 @@ After=network-online.target
 Image=docker.io/localstack/localstack:3
 Environment=SERVICES=sns,sqs,s3
 Environment=HOSTNAME_EXTERNAL=localstack
-Network=caddy.network
+Network=standardnotes.network
 
 [Service]
 Restart=always

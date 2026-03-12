@@ -11,6 +11,20 @@ Each service is a plain `.container` file that systemd picks up natively via the
 [Quadlet generator](https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html).
 No `docker-compose`, no `podman-compose`, no YAML — just INI files and `systemctl`.
 
+```text
+.
+├── configs/          Service configuration files (Caddyfile, YAML, TOML, JSON)
+├── accessories/      Infrastructure and utility services
+├── bookmarks/        Bookmark and read-later managers
+├── git/              Git hosting
+├── networks/         Shared Podman network definitions
+├── notes/            Note-taking and knowledge base services
+├── rss/              RSS/Atom feed readers
+├── vault/            Password managers
+├── vpn/              VPN and proxy services
+└── wiki/             Wiki engines
+```
+
 ## Why Quadlet
 
 - **Native systemd integration** — services start on boot, restart on failure, show up in `journalctl`
@@ -22,12 +36,14 @@ No `docker-compose`, no `podman-compose`, no YAML — just INI files and `system
 ## Quick Start
 
 ```bash
-# 1. Copy service files
+# 1. Copy Quadlet files and shared network
 cp -r bookmarks/linkding ~/.config/containers/systemd/linkding/
 cp networks/caddy.network ~/.config/containers/systemd/networks/
 
-# 2. Create data directory (Podman won't create it automatically)
+# 2. Create data directory and environment file
 mkdir -p ~/volumes/linkding/data
+cp bookmarks/linkding/env.example ~/volumes/linkding/.env
+nano ~/volumes/linkding/.env
 
 # 3. Reload and start
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
@@ -135,21 +151,44 @@ systemctl --user start linkding
 
 </details>
 
+## File Layout
+
+The repository mirrors the target server structure. Three types of files go to three different locations:
+
+| What | Repo path | Server path | Tracked in git? |
+| --- | --- | --- | --- |
+| Quadlet units | `<category>/<service>/*.container` | `~/.config/containers/systemd/<service>/` | yes |
+| Shared networks | `networks/*.network` | `~/.config/containers/systemd/networks/` | yes |
+| Config files | `configs/<service>/` | `~/.config/containers/systemd/configs/<service>/` | yes |
+| Environment | `<category>/<service>/env.example` | `~/volumes/<service>/.env` | **no** (secrets) |
+| Data volumes | — | `~/volumes/<service>/` | no |
+
+- **configs/** — service configuration files (Caddyfile, config.yaml, settings.yml, etc.). Edit `example.org` placeholders and copy to the server. These are safe to track in git.
+- **env.example** — template for `.env` files containing secrets (passwords, tokens, API keys). Copy to `~/volumes/<service>/.env` and fill in real values. **Never commit `.env` files.**
+- **volumes/** — persistent data directories on the server (databases, uploads, caches). Not part of this repo.
+
 ## Deployment
 
 ### Prerequisites
 
 - **Podman 4.4+** with Quadlet support
-- **systemd** user session (enable lingering: `loginctl enable-linger $USER`)
-- Directories created under `~/volumes/<service>/` for persistent data
+- **systemd** user session with lingering enabled (see [User lingering](#user-lingering) below)
+- Privileged ports allowed for rootless users (see [Privileged ports](#privileged-ports) below)
 
 ### Step by Step
 
-1. Copy the service directory to `~/.config/containers/systemd/<service>/`
-2. Copy `networks/caddy.network` to `~/.config/containers/systemd/networks/` (if the service uses it)
-3. Create data directories: `mkdir -p ~/volumes/<service>/data`
-4. Edit environment variables or `EnvironmentFile=` paths as needed
-5. Reload and start:
+1. Copy `.container` and `.network` files to `~/.config/containers/systemd/<service>/`
+2. Copy shared networks: `cp networks/caddy.network ~/.config/containers/systemd/networks/`
+3. Copy config files (if the service has them): `cp -r configs/<service> ~/.config/containers/systemd/configs/`
+4. Create data directories: `mkdir -p ~/volumes/<service>/data`
+5. Create `.env` from template and fill in real values:
+
+```bash
+cp <category>/<service>/env.example ~/volumes/<service>/.env
+nano ~/volumes/<service>/.env
+```
+
+6. Reload and start:
 
 ```bash
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
@@ -186,6 +225,39 @@ journalctl --user -u <service> -f           # follow logs
 
 > **Important.** These are real-world issues encountered in production.
 > Read this section before deploying.
+
+<details>
+<summary><b>User lingering</b></summary>
+
+By default, systemd kills all user processes on logout. To keep services running after
+you disconnect from SSH, enable lingering:
+
+```bash
+sudo loginctl enable-linger $USER
+```
+
+Without this, all your containers will stop as soon as you log out.
+
+</details>
+
+<details>
+<summary><b>Privileged ports</b></summary>
+
+Rootless Podman cannot bind to ports below 1024 by default. Services like Caddy (ports 80, 443)
+will fail to start. To allow unprivileged users to bind low ports:
+
+```bash
+sudo sysctl -w net.ipv4.ip_unprivileged_port_start=80
+```
+
+To make it permanent:
+
+```bash
+echo "net.ipv4.ip_unprivileged_port_start=80" | sudo tee /etc/sysctl.d/podman-privileged-ports.conf
+sudo sysctl --system
+```
+
+</details>
 
 <details>
 <summary><b>XDG_RUNTIME_DIR via SSH</b></summary>
@@ -309,6 +381,7 @@ After=network-online.target
 Image=docker.io/library/myimage:latest
 PublishPort=127.0.0.1:8080:80
 Volume=%h/volumes/myservice/data:/data
+EnvironmentFile=%h/volumes/myservice/.env
 Network=caddy.network
 AutoUpdate=registry
 
@@ -322,6 +395,7 @@ WantedBy=default.target
 | Directive | Meaning |
 | --- | --- |
 | `%h` | Expands to the user's home directory |
+| `EnvironmentFile=` | Reads environment variables from a file (use for secrets) |
 | `AutoUpdate=registry` | Enables automatic image updates via `podman auto-update` |
 | `After=<dep>.service` | Ensures dependent containers start first |
 | `WantedBy=default.target` | Starts the service on user login (with lingering) |
@@ -329,8 +403,12 @@ WantedBy=default.target
 ## Contributing
 
 1. Fork the repository
-2. Add a new service directory with `.container` file(s)
-3. Follow existing conventions (bind mounts to `%h/volumes/`, `Network=caddy.network`, `AutoUpdate=registry`)
+2. Add a new service directory with `.container` file(s) and `env.example`
+3. Follow existing conventions:
+   - Config files in `configs/<service>/`, data volumes in `%h/volumes/<service>/`
+   - Secrets in `EnvironmentFile=` (pointing to `%h/volumes/<service>/.env`), not inline
+   - App containers on `caddy.network`, DB/Redis on internal `<service>.network` only
+   - `AutoUpdate=registry` for public images
 4. Open a pull request
 
 ## License

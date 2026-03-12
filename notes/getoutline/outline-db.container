@@ -5,10 +5,8 @@ After=network-online.target
 [Container]
 Image=docker.io/library/postgres:15-alpine
 Volume=%h/volumes/outline/database:/var/lib/postgresql/data
-Environment=POSTGRES_USER=outline
-Environment=POSTGRES_PASSWORD=changeme
-Environment=POSTGRES_DB=outline
-Network=caddy.network
+EnvironmentFile=%h/volumes/outline/.env
+Network=outline.network
 HealthCmd=pg_isready -U outline
 
 [Service]

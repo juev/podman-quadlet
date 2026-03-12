@@ -9,6 +9,7 @@ Image=linkace/linkace:latest
 EnvironmentFile=%h/volumes/linkace/.env
 Volume=%h/volumes/linkace/backups:/app/storage/app/backups
 Network=caddy.network
+Network=linkace.network
 AutoUpdate=registry
 
 [Service]

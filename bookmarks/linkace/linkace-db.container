@@ -6,7 +6,7 @@ After=network-online.target
 Image=mariadb:11
 Volume=%h/volumes/linkace/db:/var/lib/mysql
 EnvironmentFile=%h/volumes/linkace/.env
-Network=caddy.network
+Network=linkace.network
 
 [Service]
 Restart=always

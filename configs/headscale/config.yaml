@@ -1,0 +1,18 @@
+server_url: https://headscale.example.org
+listen_addr: 0.0.0.0:8080
+metrics_listen_addr: 127.0.0.1:9090
+noise:
+  private_key_path: /etc/headscale/noise_private.key
+prefixes:
+  v6: fd7a:115c:a1e0::/48
+  v4: 100.64.0.0/10
+database:
+  type: sqlite
+  sqlite:
+    path: /var/lib/headscale/db.sqlite
+dns:
+  base_domain: example.org
+  magic_dns: true
+  nameservers:
+    global:
+      - 1.1.1.1

@@ -8,8 +8,9 @@ Image=wallabag/wallabag
 PublishPort=127.0.0.1:3008:80
 Volume=%h/volumes/wallabag/data:/var/www/wallabag/data
 Volume=%h/volumes/wallabag/images:/var/www/wallabag/web/assets/images
-Environment=SYMFONY__ENV__DOMAIN_NAME=https://wallabag.example.com
+EnvironmentFile=%h/volumes/wallabag/.env
 Network=caddy.network
+Network=wallabag.network
 AutoUpdate=registry
 
 [Service]

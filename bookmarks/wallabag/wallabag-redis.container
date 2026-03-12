@@ -5,7 +5,7 @@ After=network-online.target
 [Container]
 Image=redis:alpine
 Volume=%h/volumes/wallabag/redis:/data
-Network=caddy.network
+Network=wallabag.network
 AutoUpdate=registry
 
 [Service]

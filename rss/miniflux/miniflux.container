@@ -6,12 +6,9 @@ After=miniflux-db.service
 [Container]
 Image=docker.io/miniflux/miniflux:latest
 PublishPort=127.0.0.1:3005:8080
-Environment=DATABASE_URL=postgres://miniflux:changeme@miniflux-db:5432/miniflux?sslmode=disable
-Environment=RUN_MIGRATIONS=1
-Environment=CREATE_ADMIN=1
-Environment=ADMIN_USERNAME=admin
-Environment=ADMIN_PASSWORD=changeme
+EnvironmentFile=%h/volumes/miniflux/.env
 Network=caddy.network
+Network=miniflux.network
 AutoUpdate=registry
 
 [Service]

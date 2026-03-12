@@ -6,7 +6,7 @@ After=network-online.target
 Image=postgres:16-alpine
 Volume=%h/volumes/linkwarden/pgdata:/var/lib/postgresql/data
 EnvironmentFile=%h/volumes/linkwarden/.env
-Network=caddy.network
+Network=linkwarden.network
 
 [Service]
 Restart=always

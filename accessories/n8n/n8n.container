@@ -5,9 +5,7 @@ Description=N8N - workflow automation
 Image=docker.n8n.io/n8nio/n8n
 PublishPort=127.0.0.1:3003:5678
 Volume=%h/volumes/n8n/data:/home/node/.n8n
-Environment=N8N_PROTOCOL=https
-Environment=NODE_ENV=production
-Environment=GENERIC_TIMEZONE=UTC
+EnvironmentFile=%h/volumes/n8n/.env
 Network=caddy.network
 UserNS=keep-id
 AutoUpdate=registry

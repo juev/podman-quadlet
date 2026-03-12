@@ -5,7 +5,7 @@ After=network-online.target
 [Container]
 Image=docker.io/zefhemel/silverbullet
 Volume=%h/volumes/silverbullet/data:/space
-Environment=SB_USER=user:password
+EnvironmentFile=%h/volumes/silverbullet/.env
 Network=caddy.network
 UserNS=keep-id
 AutoUpdate=registry

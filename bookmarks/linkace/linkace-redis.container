@@ -5,7 +5,7 @@ After=network-online.target
 [Container]
 Image=redis:7-alpine
 Volume=%h/volumes/linkace/redis:/data
-Network=caddy.network
+Network=linkace.network
 
 [Service]
 Restart=always

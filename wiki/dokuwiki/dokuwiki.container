@@ -7,9 +7,7 @@ Wants=network-online.target
 Image=lscr.io/linuxserver/dokuwiki:latest
 PublishPort=127.0.0.1:8080:80
 Volume=%h/volumes/dokuwiki/config:/config
-Environment=PUID=1000
-Environment=PGID=1000
-Environment=TZ=UTC
+EnvironmentFile=%h/volumes/dokuwiki/.env
 Network=caddy.network
 AutoUpdate=registry
 

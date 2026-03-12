@@ -5,7 +5,7 @@ After=network-online.target
 [Container]
 Image=cloudflare/cloudflared:latest
 Exec=tunnel run
-EnvironmentFile=%h/.config/containers/systemd/configs/cloudflared/cloudflared.env
+EnvironmentFile=%h/volumes/cloudflared/.env
 Network=host
 ReadOnly=true
 AutoUpdate=registry

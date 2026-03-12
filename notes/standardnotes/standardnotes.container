@@ -12,6 +12,7 @@ Volume=%h/volumes/standardnotes/logs:/var/lib/server/logs
 Volume=%h/volumes/standardnotes/uploads:/opt/server/packages/files/dist/uploads
 EnvironmentFile=%h/volumes/standardnotes/.env
 Network=caddy.network
+Network=standardnotes.network
 
 [Service]
 Restart=always

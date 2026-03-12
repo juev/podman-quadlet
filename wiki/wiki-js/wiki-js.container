@@ -7,8 +7,7 @@ Wants=network-online.target
 Image=ghcr.io/requarks/wiki:2
 PublishPort=127.0.0.1:3000:3000
 Volume=%h/volumes/wiki-js/data:/data
-Environment=DB_TYPE=sqlite
-Environment=DB_FILEPATH=/data/wiki.db
+EnvironmentFile=%h/volumes/wiki-js/.env
 Network=caddy.network
 AutoUpdate=registry
 

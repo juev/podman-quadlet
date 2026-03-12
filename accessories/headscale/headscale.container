@@ -5,7 +5,7 @@ After=network-online.target
 [Container]
 Image=headscale/headscale:latest
 Exec=serve
-Volume=%h/volumes/headscale/config:/etc/headscale
+Volume=%h/.config/containers/systemd/configs/headscale:/etc/headscale:ro
 Volume=%h/volumes/headscale/data:/var/lib/headscale
 Network=caddy.network
 AutoUpdate=registry
