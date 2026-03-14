@@ -1,0 +1,34 @@
+[Unit]
+Description=Grafana
+After=prometheus.service
+
+[Container]
+ContainerName=grafana
+Image=docker.io/grafana/grafana:latest
+Volume=%h/volumes/grafana/data:/var/lib/grafana:Z
+Volume=sockets.volume:/run/sockets
+UserNS=keep-id:uid=472,gid=0
+Environment=GF_SERVER_PROTOCOL=socket
+Environment=GF_SERVER_SOCKET=/run/sockets/grafana.sock
+Environment=GF_SERVER_ROOT_URL=https://grafana.example.org
+Environment=GF_SECURITY_ADMIN_USER=admin
+Environment=GF_SECURITY_ADMIN_PASSWORD=CHANGE_ME
+Environment=GF_AUTH_GENERIC_OAUTH_ENABLED=true
+Environment=GF_AUTH_GENERIC_OAUTH_NAME=Pocket ID
+Environment=GF_AUTH_GENERIC_OAUTH_CLIENT_ID=CHANGE_ME
+Environment=GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=CHANGE_ME
+Environment=GF_AUTH_GENERIC_OAUTH_SCOPES=openid profile email
+Environment=GF_AUTH_GENERIC_OAUTH_AUTH_URL=https://id.example.org/authorize
+Environment=GF_AUTH_GENERIC_OAUTH_TOKEN_URL=https://id.example.org/api/oidc/token
+Environment=GF_AUTH_GENERIC_OAUTH_API_URL=https://id.example.org/api/oidc/userinfo
+Environment=GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP=true
+Network=caddy.network
+DNS=1.1.1.1
+DNS=8.8.8.8
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

@@ -1,12 +1,16 @@
 [Unit]
-Description=WebDAV server
+Description=WebDAV server (rclone)
+After=network-online.target
 
 [Container]
-Image=bytemark/webdav
-PublishPort=127.0.0.1:3002:80
-Volume=%h/volumes/webdav/data:/var/lib/dav
-EnvironmentFile=%h/volumes/webdav/.env
+ContainerName=webdav
+Image=docker.io/rclone/rclone:latest
+Exec=serve webdav /data --addr :8080 --read-only=false
+Volume=%h/volumes/webdav/data:/data:Z
+UserNS=keep-id:uid=1001,gid=1001
 Network=caddy.network
+DNS=1.1.1.1
+DNS=8.8.8.8
 AutoUpdate=registry
 
 [Service]

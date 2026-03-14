@@ -1,12 +1,23 @@
 [Unit]
-Description=Linkding bookmark manager
+Description=Linkding bookmarks
 After=network-online.target
 
 [Container]
-Image=sissbruecker/linkding:latest
-PublishPort=127.0.0.1:3006:9090
-Volume=%h/volumes/linkding/data:/etc/linkding/data
+ContainerName=linkding
+Image=docker.io/sissbruecker/linkding:latest
+Volume=%h/volumes/linkding/data:/etc/linkding/data:Z
+Environment=LD_ENABLE_OIDC=True
+Environment=OIDC_RP_CLIENT_ID=CHANGE_ME
+Environment=OIDC_RP_CLIENT_SECRET=CHANGE_ME
+Environment=OIDC_OP_AUTHORIZATION_ENDPOINT=https://id.example.org/authorize
+Environment=OIDC_OP_TOKEN_ENDPOINT=https://id.example.org/api/oidc/token
+Environment=OIDC_OP_USER_ENDPOINT=https://id.example.org/api/oidc/userinfo
+Environment=OIDC_OP_JWKS_ENDPOINT=https://id.example.org/.well-known/jwks.json
+Environment=LD_CSRF_TRUSTED_ORIGINS=https://links.example.org
+UserNS=keep-id:uid=33,gid=33
 Network=caddy.network
+DNS=1.1.1.1
+DNS=8.8.8.8
 AutoUpdate=registry
 
 [Service]

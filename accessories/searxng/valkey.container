@@ -1,10 +1,13 @@
 [Unit]
-Description=Valkey - Redis-compatible key-value store for SearXNG
+Description=Valkey cache for SearXNG
 
 [Container]
-Image=valkey/valkey:8-alpine
-Volume=%h/volumes/searxng/valkey:/data
-Network=searxng.network
+ContainerName=searxng-valkey
+Image=docker.io/valkey/valkey:8-alpine
+Exec=valkey-server --save 30 1 --loglevel warning
+Volume=%h/volumes/searxng-valkey/data:/data:Z
+UserNS=keep-id:uid=999,gid=1000
+Network=searxng_cache.network
 AutoUpdate=registry
 
 [Service]

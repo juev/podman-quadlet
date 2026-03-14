@@ -3,19 +3,29 @@ Description=Caddy reverse proxy
 After=network-online.target
 
 [Container]
-Image=caddy:latest
+ContainerName=caddy
+Image=ghcr.io/juev/caddy:latest
 PublishPort=80:80
 PublishPort=443:443
 PublishPort=443:443/udp
-Volume=%h/.config/containers/systemd/configs/Caddyfile:/etc/caddy/Caddyfile:ro
-Volume=%h/volumes/caddy/data:/data
-Volume=%h/volumes/caddy/config:/config
+Volume=%h/volumes/caddy/data:/data:Z
+Volume=%h/volumes/caddy/config:/config:Z
+Volume=%h/.config/containers/systemd/configs/Caddyfile:/etc/caddy/Caddyfile:ro,Z
+Volume=%h/volumes/caddy/site:/srv:ro,Z
+Volume=sockets.volume:/run/sockets:ro
+Volume=%t/podman/podman.sock:/var/run/docker.sock:ro
+Environment=CLOUDFLARE_API_TOKEN=CHANGE_ME
+Environment=CADDY_DOCKER_CADDYFILE_PATH=/etc/caddy/Caddyfile
+Environment=CADDY_DOCKER_EXPOSEDBYDEFAULT=false
+Environment=CADDY_DOCKER_NO_SCOPE=true
 Network=caddy.network
+DNS=1.1.1.1
+DNS=8.8.8.8
 AutoUpdate=registry
 
 [Service]
 Restart=always
-TimeoutStartSec=300
+ExecReload=podman exec caddy caddy reload --config /etc/caddy/Caddyfile --force
 
 [Install]
 WantedBy=default.target

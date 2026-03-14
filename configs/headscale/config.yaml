@@ -1,18 +1,106 @@
-server_url: https://headscale.example.org
+---
+server_url: https://scale.example.org
+
 listen_addr: 0.0.0.0:8080
-metrics_listen_addr: 127.0.0.1:9090
+metrics_listen_addr: 0.0.0.0:9090
+
 noise:
-  private_key_path: /etc/headscale/noise_private.key
+  private_key_path: /var/lib/headscale/noise_private.key
+
 prefixes:
-  v6: fd7a:115c:a1e0::/48
   v4: 100.64.0.0/10
+  v6: fd7a:115c:a1e0::/48
+  allocation: sequential
+
+derp:
+  server:
+    enabled: true
+    region_id: 999
+    region_code: "headscale"
+    region_name: "Headscale Embedded DERP"
+    verify_clients: true
+    stun_listen_addr: "0.0.0.0:3478"
+    private_key_path: /var/lib/headscale/derp_server_private.key
+    automatically_add_embedded_derp_region: true
+    ipv4: CHANGE_ME
+    ipv6: CHANGE_ME
+  urls:
+    - https://controlplane.tailscale.com/derpmap/default
+  paths: []
+  auto_update_enabled: true
+  update_frequency: 3h
+
+disable_check_updates: false
+ephemeral_node_inactivity_timeout: 30m
+
 database:
   type: sqlite
+  debug: false
+  gorm:
+    prepare_stmt: true
+    parameterized_queries: true
+    skip_err_record_not_found: true
+    slow_threshold: 1000
   sqlite:
     path: /var/lib/headscale/db.sqlite
+    write_ahead_log: true
+    wal_autocheckpoint: 1000
+
+tls_cert_path: ""
+tls_key_path: ""
+
+log:
+  level: info
+  format: text
+
+policy:
+  mode: database
+  path: "/etc/headscale/acl.json"
+
 dns:
-  base_domain: example.org
   magic_dns: true
+  base_domain: mesh.internal
+  override_local_dns: true
   nameservers:
     global:
       - 1.1.1.1
+      - 1.0.0.1
+      - 2606:4700:4700::1111
+      - 2606:4700:4700::1001
+    split: {}
+  search_domains: []
+  extra_records:
+    - name: search.example.org
+      type: A
+      value: 100.64.0.9
+    - name: search.example.org
+      type: AAAA
+      value: fd7a:115c:a1e0::9
+
+unix_socket: /var/run/headscale/headscale.sock
+unix_socket_permission: "0770"
+
+logtail:
+  enabled: false
+
+randomize_client_port: false
+
+taildrop:
+  enabled: true
+
+oidc:
+  issuer: "https://id.example.org"
+  client_id: "CHANGE_ME"
+  client_secret: "CHANGE_ME"
+  pkce:
+    enabled: true
+    method: S256
+  scope:
+    - openid
+    - profile
+    - email
+  only_start_if_oidc_is_available: false
+  email_verified_required: true
+  expiry: 0
+  allowed_domains:
+    - example.org

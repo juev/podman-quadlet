@@ -1,0 +1,21 @@
+server:
+  host: 0.0.0.0
+  port: 3000
+  cookie_secret: CHANGE_ME
+
+headscale:
+  url: http://headscale:8080
+  api_key: CHANGE_ME
+  config_path: /etc/headscale/config.yaml
+
+oidc:
+  issuer: https://id.example.org
+  client_id: CHANGE_ME
+  client_secret: CHANGE_ME
+  headscale_api_key: CHANGE_ME
+  use_pkce: true
+
+integration:
+  docker:
+    container_name: "headscale"
+    enabled: true

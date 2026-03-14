@@ -1,13 +1,30 @@
 [Unit]
-Description=Forgejo git service
+Description=Forgejo git hosting
 After=network-online.target
 
 [Container]
-Image=codeberg.org/forgejo/forgejo:9
-Volume=%h/volumes/forgejo/data:/data
-Volume=%h/volumes/forgejo/config:/etc/gitea
+ContainerName=forgejo
+Image=codeberg.org/forgejo/forgejo:14
+Volume=%h/volumes/forgejo/data:/data:Z
+Volume=%h/.config/containers/systemd/configs/forgejo/app.ini:/data/gitea/conf/app.ini:ro,Z
+Environment=USER_UID=1000
+Environment=USER_GID=1000
+Environment=RUN_MODE=prod
+Environment=FORGEJO__server__ROOT_URL=https://git.example.org
+Environment=FORGEJO__server__SSH_DOMAIN=git.example.org
+Environment=FORGEJO__server__SSH_PORT=443
+Environment=FORGEJO__server__LANDING_PAGE=explore
+Environment=FORGEJO__mailer__ENABLED=true
+Environment=FORGEJO__mailer__FROM=noreply@example.org
+Environment=FORGEJO__mailer__PROTOCOL=smtp
+Environment=FORGEJO__mailer__SMTP_ADDR=smtp.example.com
+Environment=FORGEJO__mailer__SMTP_PORT=465
+Environment=FORGEJO__mailer__USER=CHANGE_ME
+Environment=FORGEJO__mailer__PASSWD=CHANGE_ME
+Environment=FORGEJO__oauth2_client__ENABLE_AUTO_REGISTRATION=true
 Network=caddy.network
-UserNS=keep-id:uid=1000,gid=1000
+DNS=1.1.1.1
+DNS=8.8.8.8
 AutoUpdate=registry
 
 [Service]

@@ -1,17 +1,22 @@
 [Unit]
-Description=Miniflux PostgreSQL
-After=network-online.target
+Description=PostgreSQL for Miniflux
 
 [Container]
-Image=docker.io/library/postgres:15-alpine
-Volume=%h/volumes/miniflux/db:/var/lib/postgresql/data
-EnvironmentFile=%h/volumes/miniflux/.env
-Network=miniflux.network
+ContainerName=miniflux-db
+Image=docker.io/library/postgres:16
+Volume=%h/volumes/miniflux-db/data:/var/lib/postgresql/data:Z
+Environment=POSTGRES_USER=miniflux
+Environment=POSTGRES_PASSWORD=CHANGE_ME
+Environment=POSTGRES_DB=miniflux
+UserNS=keep-id:uid=999,gid=999
+Network=miniflux_db.network
 HealthCmd=pg_isready -U miniflux
+HealthInterval=10s
+HealthStartPeriod=30s
+AutoUpdate=registry
 
 [Service]
 Restart=always
-TimeoutStartSec=900
 
 [Install]
 WantedBy=default.target

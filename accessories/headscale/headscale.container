@@ -1,18 +1,31 @@
 [Unit]
-Description=Headscale - self-hosted Tailscale control server
-After=network-online.target
+Description=Headscale coordination server
+After=network-online.target caddy.service
 
 [Container]
-Image=headscale/headscale:latest
+ContainerName=headscale
+Label=me.tale.headplane.target=headscale
+Image=ghcr.io/juanfont/headscale:0.28.0
 Exec=serve
+ReadOnly=true
+Tmpfs=/var/run/headscale
+
+Network=caddy.network
+PublishPort=3478:3478/udp
+
 Volume=%h/.config/containers/systemd/configs/headscale:/etc/headscale:ro
 Volume=%h/volumes/headscale/data:/var/lib/headscale
-Network=caddy.network
+
+HealthCmd=headscale health
+HealthInterval=30s
+HealthRetries=3
+HealthStartPeriod=10s
+HealthTimeout=5s
+
 AutoUpdate=registry
 
 [Service]
 Restart=always
-TimeoutStartSec=300
 
 [Install]
 WantedBy=default.target

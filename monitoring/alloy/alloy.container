@@ -1,0 +1,20 @@
+[Unit]
+Description=Grafana Alloy
+After=loki.service
+
+[Container]
+ContainerName=alloy
+Image=docker.io/grafana/alloy:latest
+Volume=%h/volumes/alloy/config.alloy:/etc/alloy/config.alloy:ro,Z
+Volume=%t/podman/podman.sock:/run/podman/podman.sock
+SecurityLabelDisable=true
+Network=caddy.network
+DNS=1.1.1.1
+DNS=8.8.8.8
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

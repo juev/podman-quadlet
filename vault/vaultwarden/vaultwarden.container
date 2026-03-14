@@ -1,18 +1,32 @@
 [Unit]
-Description=Vaultwarden
+Description=Vaultwarden password manager
 After=network-online.target
 
 [Container]
+ContainerName=vaultwarden
 Image=docker.io/vaultwarden/server:latest
-PublishPort=127.0.0.1:3004:80
-Volume=%h/volumes/vaultwarden/data:/data
-EnvironmentFile=%h/volumes/vaultwarden/.env
+Volume=%h/volumes/vaultwarden/data:/data:Z
+Environment=DOMAIN=https://vault.example.org
+Environment=SMTP_HOST=smtp.example.com
+Environment=SMTP_FROM=vault@example.org
+Environment=SMTP_PORT=465
+Environment=SMTP_SECURITY=force_tls
+Environment=SMTP_USERNAME=CHANGE_ME
+Environment=SMTP_PASSWORD=CHANGE_ME
+Environment=SIGNUPS_ALLOWED=false
+Environment=SIGNUPS_VERIFY=true
+Environment=SSO_ENABLED=true
+Environment=SSO_AUTHORITY=https://id.example.org
+Environment=SSO_CLIENT_ID=CHANGE_ME
+Environment=SSO_CLIENT_SECRET=CHANGE_ME
+Environment=SSO_PKCE=true
 Network=caddy.network
+DNS=1.1.1.1
+DNS=8.8.8.8
 AutoUpdate=registry
 
 [Service]
 Restart=always
-TimeoutStartSec=900
 
 [Install]
 WantedBy=default.target

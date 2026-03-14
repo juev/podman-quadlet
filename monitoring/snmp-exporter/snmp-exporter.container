@@ -1,0 +1,11 @@
+[Container]
+ContainerName=snmp-exporter
+Image=docker.io/prom/snmp-exporter:latest
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

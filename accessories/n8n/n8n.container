@@ -1,14 +1,24 @@
 [Unit]
-Description=N8N - workflow automation
+Description=n8n workflow automation
+After=network-online.target
 
 [Container]
-Image=docker.n8n.io/n8nio/n8n
-PublishPort=127.0.0.1:3003:5678
-Volume=%h/volumes/n8n/data:/home/node/.n8n
-EnvironmentFile=%h/volumes/n8n/.env
+ContainerName=n8n
+Image=docker.n8n.io/n8nio/n8n:latest
+Volume=%h/volumes/n8n/data:/home/node/.n8n:Z
+Environment=N8N_HOST=n8n.example.org
+Environment=N8N_PORT=5678
+Environment=N8N_PROTOCOL=https
+Environment=NODE_ENV=production
+Environment=WEBHOOK_URL=https://n8n.example.org/
+Environment=GENERIC_TIMEZONE=Europe/Moscow
+Environment=TZ=Europe/Moscow
+Environment=N8N_RUNNERS_ENABLED=true
 Network=caddy.network
-UserNS=keep-id
+DNS=1.1.1.1
+DNS=8.8.8.8
 AutoUpdate=registry
+UserNS=keep-id:uid=1000,gid=1000
 
 [Service]
 Restart=always

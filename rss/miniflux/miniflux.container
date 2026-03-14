@@ -1,19 +1,30 @@
 [Unit]
-Description=Miniflux RSS Reader
-After=network-online.target
+Description=Miniflux RSS reader
 After=miniflux-db.service
 
 [Container]
+ContainerName=miniflux
 Image=docker.io/miniflux/miniflux:latest
-PublishPort=127.0.0.1:3005:8080
-EnvironmentFile=%h/volumes/miniflux/.env
+Environment=DATABASE_URL=postgres://miniflux:CHANGE_ME@miniflux-db/miniflux?sslmode=disable
+Environment=RUN_MIGRATIONS=1
+Environment=BASE_URL=https://reader.example.org
+Environment=LISTEN_ADDR=:8080
+Environment=POLLING_FREQUENCY=10
+Environment=TZ=Europe/Moscow
+Environment=OAUTH2_PROVIDER=oidc
+Environment=OAUTH2_CLIENT_ID=CHANGE_ME
+Environment=OAUTH2_CLIENT_SECRET=CHANGE_ME
+Environment=OAUTH2_REDIRECT_URL=https://reader.example.org/oauth2/oidc/callback
+Environment=OAUTH2_OIDC_DISCOVERY_ENDPOINT=https://id.example.org
+Environment=OAUTH2_USER_CREATION=1
 Network=caddy.network
-Network=miniflux.network
+Network=miniflux_db.network
+DNS=1.1.1.1
+DNS=8.8.8.8
 AutoUpdate=registry
 
 [Service]
 Restart=always
-TimeoutStartSec=900
 
 [Install]
 WantedBy=default.target

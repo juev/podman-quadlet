@@ -1,0 +1,21 @@
+[Unit]
+Description=Headplane UI for Headscale
+PartOf=headscale.service
+After=headscale.service
+
+[Container]
+ContainerName=headplane
+Image=ghcr.io/tale/headplane:latest
+
+Network=caddy.network
+
+Volume=%h/.config/containers/systemd/configs/headplane/config.yaml:/etc/headplane/config.yaml:ro
+Volume=%h/volumes/headplane/data:/var/lib/headplane
+Volume=%h/.config/containers/systemd/configs/headscale:/etc/headscale
+Volume=/run/user/%U/podman/podman.sock:/var/run/docker.sock:ro
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

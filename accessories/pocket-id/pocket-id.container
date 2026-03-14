@@ -1,0 +1,25 @@
+[Unit]
+Description=Pocket ID (OIDC provider)
+After=network-online.target
+
+[Container]
+ContainerName=pocket-id
+Image=ghcr.io/pocket-id/pocket-id:latest
+Volume=%h/volumes/pocket-id/data:/app/data:Z
+Environment=APP_URL=https://id.example.org
+Environment=TRUST_PROXY=true
+Environment=ENCRYPTION_KEY=CHANGE_ME
+UserNS=keep-id:uid=1000,gid=1000
+Network=caddy.network
+DNS=1.1.1.1
+DNS=8.8.8.8
+HealthCmd=curl -f http://localhost:1411/healthz
+HealthInterval=90s
+HealthStartPeriod=10s
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

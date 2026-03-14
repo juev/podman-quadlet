@@ -1,13 +1,19 @@
 [Unit]
-Description=SearXNG - privacy-respecting metasearch engine
-After=valkey.service
+Description=SearXNG metasearch engine
+After=searxng-valkey.service
 
 [Container]
-Image=searxng/searxng
-PublishPort=127.0.0.1:3007:8080
-Volume=%h/.config/containers/systemd/configs/searxng:/etc/searxng:ro
+ContainerName=searxng
+Image=docker.io/searxng/searxng:latest
+Volume=%h/volumes/searxng/config:/etc/searxng:Z
+Environment=SEARXNG_BASE_URL=https://search.example.org/
+Environment=UWSGI_WORKERS=4
+Environment=UWSGI_THREADS=4
+UserNS=keep-id:uid=977,gid=977
 Network=caddy.network
-Network=searxng.network
+Network=searxng_cache.network
+DNS=1.1.1.1
+DNS=8.8.8.8
 AutoUpdate=registry
 
 [Service]
