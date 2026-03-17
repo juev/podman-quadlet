@@ -5,8 +5,8 @@ After=outline-db.service
 After=outline-redis.service
 
 [Container]
+ContainerName=outline
 Image=docker.getoutline.com/outlinewiki/outline:latest
-PublishPort=127.0.0.1:3000:3000
 Volume=%h/volumes/outline/storage:/var/lib/outline/data
 EnvironmentFile=%h/volumes/outline/.env
 Network=caddy.network

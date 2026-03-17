@@ -3,7 +3,8 @@ Description=MariaDB for LinkAce
 After=network-online.target
 
 [Container]
-Image=mariadb:11
+ContainerName=linkace-db
+Image=docker.io/library/mariadb:11
 Volume=%h/volumes/linkace/db:/var/lib/mysql
 EnvironmentFile=%h/volumes/linkace/.env
 Network=linkace.network

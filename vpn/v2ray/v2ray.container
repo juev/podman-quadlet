@@ -4,7 +4,8 @@ After=network-online.target
 Wants=network-online.target
 
 [Container]
-Image=v2fly/v2fly-core
+ContainerName=v2ray
+Image=docker.io/v2fly/v2fly-core:latest
 PublishPort=1080:1080/tcp
 PublishPort=1080:1080/udp
 PublishPort=8080:8080

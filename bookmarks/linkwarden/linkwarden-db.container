@@ -3,7 +3,8 @@ Description=PostgreSQL for Linkwarden
 After=network-online.target
 
 [Container]
-Image=postgres:16-alpine
+ContainerName=linkwarden-db
+Image=docker.io/library/postgres:16-alpine
 Volume=%h/volumes/linkwarden/pgdata:/var/lib/postgresql/data
 EnvironmentFile=%h/volumes/linkwarden/.env
 Network=linkwarden.network

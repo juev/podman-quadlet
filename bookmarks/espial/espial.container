@@ -3,7 +3,8 @@ Description=Espial bookmark manager
 After=network-online.target
 
 [Container]
-Image=jonschoning/espial:espial
+ContainerName=espial
+Image=docker.io/jonschoning/espial:espial
 Volume=%h/volumes/espial/data:/app/data
 EnvironmentFile=%h/volumes/espial/.env
 Network=caddy.network

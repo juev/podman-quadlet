@@ -3,7 +3,8 @@ Description=SilverBullet
 
 [Container]
 ContainerName=silverbullet
-Image=ghcr.io/silverbulletmd/silverbullet
+Image=ghcr.io/silverbulletmd/silverbullet:latest
+AutoUpdate=registry
 Environment=SB_USER=CHANGE_ME
 Volume=%h/volumes/silverbullet/space:/space
 Network=caddy.network

@@ -2,7 +2,8 @@
 Description=Jellyfin - media server
 
 [Container]
-Image=jellyfin/jellyfin
+ContainerName=jellyfin
+Image=docker.io/jellyfin/jellyfin:latest
 Volume=%h/volumes/jellyfin/config:/config
 Volume=%h/volumes/jellyfin/cache:/cache
 Volume=%h/volumes/jellyfin/media:/media:ro

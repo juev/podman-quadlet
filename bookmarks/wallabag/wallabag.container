@@ -4,8 +4,8 @@ After=network-online.target
 After=wallabag-redis.service
 
 [Container]
-Image=wallabag/wallabag
-PublishPort=127.0.0.1:3008:80
+ContainerName=wallabag
+Image=docker.io/wallabag/wallabag:latest
 Volume=%h/volumes/wallabag/data:/var/www/wallabag/data
 Volume=%h/volumes/wallabag/images:/var/www/wallabag/web/assets/images
 EnvironmentFile=%h/volumes/wallabag/.env

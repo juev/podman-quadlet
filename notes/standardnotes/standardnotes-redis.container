@@ -3,7 +3,8 @@ Description=Standard Notes Redis
 After=network-online.target
 
 [Container]
-Image=docker.io/library/redis:6-alpine
+ContainerName=standardnotes-redis
+Image=docker.io/library/redis:7-alpine
 Volume=%h/volumes/standardnotes/redis:/data
 Network=standardnotes.network
 

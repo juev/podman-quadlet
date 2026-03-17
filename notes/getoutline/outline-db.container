@@ -3,7 +3,8 @@ Description=Outline PostgreSQL
 After=network-online.target
 
 [Container]
-Image=docker.io/library/postgres:15-alpine
+ContainerName=outline-db
+Image=docker.io/library/postgres:16-alpine
 Volume=%h/volumes/outline/database:/var/lib/postgresql/data
 EnvironmentFile=%h/volumes/outline/.env
 Network=outline.network

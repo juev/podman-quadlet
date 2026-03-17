@@ -4,8 +4,8 @@ After=network-online.target
 Wants=network-online.target
 
 [Container]
+ContainerName=wiki-js
 Image=ghcr.io/requarks/wiki:2
-PublishPort=127.0.0.1:3000:3000
 Volume=%h/volumes/wiki-js/data:/data
 EnvironmentFile=%h/volumes/wiki-js/.env
 Network=caddy.network

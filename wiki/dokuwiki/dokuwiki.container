@@ -4,8 +4,8 @@ After=network-online.target
 Wants=network-online.target
 
 [Container]
+ContainerName=dokuwiki
 Image=lscr.io/linuxserver/dokuwiki:latest
-PublishPort=127.0.0.1:8080:80
 Volume=%h/volumes/dokuwiki/config:/config
 EnvironmentFile=%h/volumes/dokuwiki/.env
 Network=caddy.network

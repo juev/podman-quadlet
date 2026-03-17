@@ -3,8 +3,8 @@ Description=FreshRSS
 After=network-online.target
 
 [Container]
+ContainerName=freshrss
 Image=docker.io/freshrss/freshrss:latest
-PublishPort=127.0.0.1:3009:80
 Volume=%h/volumes/freshrss/data:/var/www/FreshRSS/data
 Volume=%h/volumes/freshrss/extensions:/var/www/FreshRSS/extensions
 EnvironmentFile=%h/volumes/freshrss/.env

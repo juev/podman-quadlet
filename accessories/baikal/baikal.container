@@ -2,8 +2,8 @@
 Description=Baikal - CalDAV+CardDAV server
 
 [Container]
+ContainerName=baikal
 Image=ckulka/baikal:nginx
-PublishPort=127.0.0.1:8083:80
 Volume=%h/volumes/baikal/config:/var/www/baikal/config
 Volume=%h/volumes/baikal/data:/var/www/baikal/Specific
 Network=caddy.network

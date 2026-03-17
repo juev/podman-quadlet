@@ -3,7 +3,8 @@ Description=Cloudflare Tunnel
 After=network-online.target
 
 [Container]
-Image=cloudflare/cloudflared:latest
+ContainerName=cloudflared
+Image=docker.io/cloudflare/cloudflared:latest
 Exec=tunnel run
 EnvironmentFile=%h/volumes/cloudflared/.env
 Network=host

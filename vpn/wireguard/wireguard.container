@@ -4,7 +4,9 @@ After=network-online.target
 Wants=network-online.target
 
 [Container]
-Image=lscr.io/linuxserver/wireguard
+ContainerName=wireguard
+Image=lscr.io/linuxserver/wireguard:latest
+AutoUpdate=registry
 PublishPort=51820:51820/udp
 Volume=%h/volumes/wireguard/config:/config
 EnvironmentFile=%h/volumes/wireguard/.env

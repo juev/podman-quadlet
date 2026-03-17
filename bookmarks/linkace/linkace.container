@@ -5,7 +5,8 @@ After=linkace-db.service
 After=linkace-redis.service
 
 [Container]
-Image=linkace/linkace:latest
+ContainerName=linkace
+Image=docker.io/linkace/linkace:latest
 EnvironmentFile=%h/volumes/linkace/.env
 Volume=%h/volumes/linkace/backups:/app/storage/app/backups
 Network=caddy.network

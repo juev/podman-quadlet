@@ -4,8 +4,8 @@ After=network-online.target
 Wants=network-online.target
 
 [Container]
+ContainerName=mycorrhiza
 Image=localhost/mycorrhiza:latest
-PublishPort=127.0.0.1:1737:1737
 Volume=%h/volumes/mycorrhiza/wiki:/wiki
 UserNS=keep-id
 Network=caddy.network

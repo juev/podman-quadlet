@@ -3,6 +3,7 @@ Description=Standard Notes MySQL
 After=network-online.target
 
 [Container]
+ContainerName=standardnotes-db
 Image=docker.io/library/mysql:8
 Volume=%h/volumes/standardnotes/mysql:/var/lib/mysql
 EnvironmentFile=%h/volumes/standardnotes/.env

@@ -20,6 +20,7 @@ No `docker-compose`, no `podman-compose`, no YAML — just INI files and `system
 ├── monitoring/       Monitoring, alerting, and observability stack
 ├── networks/         Shared Podman network definitions
 ├── notes/            Note-taking and knowledge base services
+├── volumes/          Shared Podman volume definitions
 ├── rss/              RSS/Atom feed readers
 ├── vault/            Password managers
 ├── vpn/              VPN and proxy services
@@ -55,7 +56,7 @@ systemctl --user start linkding
 ## Available Services
 
 <details>
-<summary><b>Accessories</b> — infrastructure and utility services (11)</summary>
+<summary><b>Accessories</b> — infrastructure and utility services (13)</summary>
 
 | Service | Description |
 | --- | --- |
@@ -63,10 +64,12 @@ systemctl --user start linkding
 | [caddy](./accessories/caddy/) | HTTPS reverse proxy with automatic TLS |
 | [cloudflared](./accessories/cloudflared/) | Cloudflare Tunnel client |
 | [firefly](./accessories/firefly/) | Personal finances manager (+ PostgreSQL) |
+| [headplane](./accessories/headplane/) | Web UI for Headscale |
 | [headscale](./accessories/headscale/) | Self-hosted Tailscale control server |
 | [jellyfin](./accessories/jellyfin/) | Free software media system |
 | [mtg](./accessories/mtg/) | MTPROTO proxy for Telegram |
 | [n8n](./accessories/n8n/) | Workflow automation tool |
+| [pocket-id](./accessories/pocket-id/) | Lightweight OIDC provider |
 | [searxng](./accessories/searxng/) | Privacy-respecting metasearch engine (+ Valkey) |
 | [versitygw](./accessories/versitygw/) | S3-compatible gateway |
 | [webdav](./accessories/webdav/) | Basic WebDAV server |
@@ -176,6 +179,7 @@ The repository mirrors the target server structure. Three types of files go to t
 | --- | --- | --- | --- |
 | Quadlet units | `<category>/<service>/*.container` | `~/.config/containers/systemd/<service>/` | yes |
 | Shared networks | `networks/*.network` | `~/.config/containers/systemd/networks/` | yes |
+| Shared volumes | `volumes/*.volume` | `~/.config/containers/systemd/volumes/` | yes |
 | Config files | `configs/<service>/` | `~/.config/containers/systemd/configs/<service>/` | yes |
 | Environment | `<category>/<service>/env.example` | `~/volumes/<service>/.env` | **no** (secrets) |
 | Data volumes | — | `~/volumes/<service>/` | no |

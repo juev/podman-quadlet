@@ -6,8 +6,8 @@ After=standardnotes-redis.service
 After=standardnotes-localstack.service
 
 [Container]
-Image=docker.io/standardnotes/server
-PublishPort=127.0.0.1:3000:3000
+ContainerName=standardnotes
+Image=docker.io/standardnotes/server:latest
 Volume=%h/volumes/standardnotes/logs:/var/lib/server/logs
 Volume=%h/volumes/standardnotes/uploads:/opt/server/packages/files/dist/uploads
 EnvironmentFile=%h/volumes/standardnotes/.env

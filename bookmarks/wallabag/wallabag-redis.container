@@ -3,7 +3,8 @@ Description=Redis for Wallabag
 After=network-online.target
 
 [Container]
-Image=redis:alpine
+ContainerName=wallabag-redis
+Image=docker.io/library/redis:7-alpine
 Volume=%h/volumes/wallabag/redis:/data
 Network=wallabag.network
 AutoUpdate=registry

@@ -3,7 +3,8 @@ Description=Shiori bookmark manager
 After=network-online.target
 
 [Container]
-Image=ghcr.io/go-shiori/shiori
+ContainerName=shiori
+Image=ghcr.io/go-shiori/shiori:latest
 Volume=%h/volumes/shiori/data:/shiori
 Network=caddy.network
 AutoUpdate=registry

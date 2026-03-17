@@ -3,7 +3,8 @@ Description=Firefly III - personal finance manager
 After=firefly-db.service
 
 [Container]
-Image=fireflyiii/core:latest
+ContainerName=firefly
+Image=docker.io/fireflyiii/core:latest
 EnvironmentFile=%h/volumes/firefly/.env
 Network=caddy.network
 Network=firefly.network

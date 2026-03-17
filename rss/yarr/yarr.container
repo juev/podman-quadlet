@@ -3,8 +3,8 @@ Description=Yarr RSS Reader
 After=network-online.target
 
 [Container]
+ContainerName=yarr
 Image=localhost/yarr:latest
-PublishPort=127.0.0.1:7070:7070
 Volume=%h/volumes/yarr/data:/data
 UserNS=keep-id
 Network=caddy.network

@@ -4,7 +4,8 @@ After=network-online.target
 Wants=network-online.target
 
 [Container]
-Image=ghcr.io/peterdavehello/tor-socks-proxy
+ContainerName=tor-socks-proxy
+Image=ghcr.io/peterdavehello/tor-socks-proxy:latest
 PublishPort=127.0.0.1:8853:53/udp
 PublishPort=127.0.0.1:9150:9150/tcp
 Volume=%h/.config/containers/systemd/configs/tor/torrc:/etc/tor/torrc:ro

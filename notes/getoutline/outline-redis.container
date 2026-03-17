@@ -3,6 +3,7 @@ Description=Outline Redis
 After=network-online.target
 
 [Container]
+ContainerName=outline-redis
 Image=docker.io/library/redis:7-alpine
 Network=outline.network
 HealthCmd=redis-cli ping
