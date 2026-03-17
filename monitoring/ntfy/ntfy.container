@@ -1,0 +1,18 @@
+[Unit]
+Description=ntfy push notifications
+After=network-online.target
+
+[Container]
+ContainerName=ntfy
+Image=docker.io/binwiederhier/ntfy:latest
+Exec=serve --cache-file /var/cache/ntfy/cache.db --auth-file /var/lib/ntfy/auth.db --auth-default-access=deny-all --base-url=https://ntfy.example.org --upstream-base-url=https://ntfy.sh
+Volume=%h/volumes/ntfy/cache:/var/cache/ntfy:Z
+Volume=%h/volumes/ntfy/auth:/var/lib/ntfy:Z
+Network=caddy-private.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

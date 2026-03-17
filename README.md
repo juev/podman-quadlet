@@ -1,7 +1,7 @@
 # Podman Quadlet
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Services](https://img.shields.io/badge/services-35-green.svg)](#available-services)
+[![Services](https://img.shields.io/badge/services-37-green.svg)](#available-services)
 [![Podman](https://img.shields.io/badge/Podman-4.4%2B-blueviolet.svg)](https://podman.io/)
 
 Ready-to-use **Podman Quadlet** service definitions for systemd — a rootless, daemonless, compose-free
@@ -17,6 +17,7 @@ No `docker-compose`, no `podman-compose`, no YAML — just INI files and `system
 ├── accessories/      Infrastructure and utility services
 ├── bookmarks/        Bookmark and read-later managers
 ├── git/              Git hosting
+├── monitoring/       Monitoring, alerting, and observability stack
 ├── networks/         Shared Podman network definitions
 ├── notes/            Note-taking and knowledge base services
 ├── rss/              RSS/Atom feed readers
@@ -93,6 +94,22 @@ systemctl --user start linkding
 | Service | Description |
 | --- | --- |
 | [forgejo](./git/forgejo/) | Self-hosted lightweight software forge (Gitea fork) |
+
+</details>
+
+<details>
+<summary><b>Monitoring</b> — monitoring and alerting (8)</summary>
+
+| Service | Description |
+| --- | --- |
+| [alertmanager](./monitoring/alertmanager/) | Alert routing and notification manager for Prometheus |
+| [alloy](./monitoring/alloy/) | OpenTelemetry Collector distribution by Grafana |
+| [grafana](./monitoring/grafana/) | Observability dashboards and visualization |
+| [loki](./monitoring/loki/) | Log aggregation system by Grafana |
+| [ntfy](./monitoring/ntfy/) | Self-hosted push notification server |
+| [prometheus](./monitoring/prometheus/) | Metrics collection and alerting toolkit |
+| [prometheus-podman-exporter](./monitoring/prometheus-podman-exporter/) | Prometheus exporter for Podman container metrics |
+| [snmp-exporter](./monitoring/snmp-exporter/) | SNMP metrics exporter for Prometheus |
 
 </details>
 
