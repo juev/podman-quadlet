@@ -1,0 +1,55 @@
+{
+  "models": {
+    "providers": {
+      "openrouter": {
+        "api_key": "YOUR_OPENROUTER_API_KEY"
+      }
+    }
+  },
+  "model_routes": [
+    { "hint": "fast", "provider": "openrouter", "model": "qwen/qwen3.5-flash-02-23", "cost_class": "cheap" },
+    { "hint": "balanced", "provider": "openrouter", "model": "google/gemini-2.5-flash", "cost_class": "standard" },
+    { "hint": "deep", "provider": "openrouter", "model": "anthropic/claude-sonnet-4", "cost_class": "premium" },
+    { "hint": "vision", "provider": "openrouter", "model": "google/gemini-2.5-flash", "cost_class": "standard" }
+  ],
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "openrouter/qwen/qwen3.5-flash-02-23"
+      }
+    }
+  },
+  "channels": {
+    "cli": true,
+    "telegram": {
+      "accounts": {
+        "main": {
+          "bot_token": "YOUR_TELEGRAM_BOT_TOKEN",
+          "allow_from": ["YOUR_TELEGRAM_USER_ID"]
+        }
+      }
+    }
+  },
+  "memory": {
+    "backend": "sqlite",
+    "auto_save": true
+  },
+  "gateway": {
+    "host": "::",
+    "port": 3000,
+    "require_pairing": true
+  },
+  "autonomy": {
+    "level": "full",
+    "workspace_only": true,
+    "max_actions_per_hour": 1000
+  },
+  "security": {
+    "sandbox": {
+      "backend": "auto"
+    },
+    "audit": {
+      "enabled": true
+    }
+  }
+}

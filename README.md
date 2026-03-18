@@ -1,7 +1,7 @@
 # Podman Quadlet
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Services](https://img.shields.io/badge/services-38-green.svg)](#available-services)
+[![Services](https://img.shields.io/badge/services-39-green.svg)](#available-services)
 [![Podman](https://img.shields.io/badge/Podman-4.4%2B-blueviolet.svg)](https://podman.io/)
 
 Ready-to-use **Podman Quadlet** service definitions for systemd — a rootless, daemonless, compose-free
@@ -56,7 +56,7 @@ systemctl --user start linkding
 ## Available Services
 
 <details>
-<summary><b>Accessories</b> — infrastructure and utility services (14)</summary>
+<summary><b>Accessories</b> — infrastructure and utility services (15)</summary>
 
 | Service | Description |
 | --- | --- |
@@ -70,6 +70,7 @@ systemctl --user start linkding
 | [jellyfin](./accessories/jellyfin/) | Free software media system |
 | [mtg](./accessories/mtg/) | MTPROTO proxy for Telegram |
 | [n8n](./accessories/n8n/) | Workflow automation tool |
+| [nullclaw](./accessories/nullclaw/) | AI assistant gateway with Telegram bot and model routing |
 | [pocket-id](./accessories/pocket-id/) | Lightweight OIDC provider |
 | [searxng](./accessories/searxng/) | Privacy-respecting metasearch engine (+ Valkey) |
 | [versitygw](./accessories/versitygw/) | S3-compatible gateway |

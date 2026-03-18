@@ -1,0 +1,23 @@
+[Unit]
+Description=NullClaw AI assistant
+After=network-online.target
+
+[Container]
+ContainerName=nullclaw
+Image=ghcr.io/nullclaw/nullclaw:latest
+Volume=%h/volumes/nullclaw:/nullclaw-data:Z
+Volume=%h/.config/containers/systemd/configs/nullclaw/config.json:/nullclaw-data/config.json:ro,Z
+UserNS=keep-id:uid=65534,gid=65534
+Network=caddy.network
+DNS=1.1.1.1
+DNS=8.8.8.8
+HealthCmd=wget -qO- http://localhost:3000/health
+HealthInterval=30s
+HealthStartPeriod=10s
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
