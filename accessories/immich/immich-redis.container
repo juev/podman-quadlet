@@ -1,0 +1,18 @@
+[Unit]
+Description=Immich Redis (Valkey)
+After=network-online.target
+
+[Container]
+ContainerName=immich-redis
+Image=docker.io/valkey/valkey:8-alpine
+Volume=%h/volumes/immich/redis:/data:Z
+Network=immich.network
+DNS=1.1.1.1
+DNS=8.8.8.8
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

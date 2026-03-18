@@ -1,0 +1,24 @@
+[Unit]
+Description=Immich PostgreSQL with pgvecto.rs
+After=network-online.target
+
+[Container]
+ContainerName=immich-postgres
+Image=docker.io/tensorchord/pgvecto-rs:pg16-v0.2.0
+Volume=%h/volumes/immich/postgres:/var/lib/postgresql/data:Z
+Environment=POSTGRES_DB=immich
+Environment=POSTGRES_USER=immich
+Environment=POSTGRES_PASSWORD=CHANGE_ME
+Environment=POSTGRES_INITDB_ARGS=--data-checksums
+UserNS=keep-id:uid=999,gid=999
+Network=immich.network
+HealthCmd=pg_isready -U immich
+HealthInterval=10s
+HealthStartPeriod=30s
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

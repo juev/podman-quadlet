@@ -1,0 +1,27 @@
+[Unit]
+Description=Immich Server
+After=immich-postgres.service immich-redis.service
+
+[Container]
+ContainerName=immich-server
+Image=ghcr.io/immich-app/immich-server:release
+Volume=%h/volumes/immich/upload:/usr/src/app/upload:Z
+Environment=DB_HOSTNAME=immich-postgres
+Environment=DB_PORT=5432
+Environment=DB_DATABASE_NAME=immich
+Environment=DB_USERNAME=immich
+Environment=DB_PASSWORD=CHANGE_ME
+Environment=REDIS_HOSTNAME=immich-redis
+Environment=REDIS_PORT=6379
+Environment=IMMICH_MACHINE_LEARNING_URL=http://immich-machine-learning:3003
+Network=immich.network
+Network=caddy.network
+DNS=1.1.1.1
+DNS=8.8.8.8
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

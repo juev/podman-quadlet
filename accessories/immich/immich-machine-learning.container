@@ -1,0 +1,18 @@
+[Unit]
+Description=Immich Machine Learning
+After=network-online.target
+
+[Container]
+ContainerName=immich-machine-learning
+Image=ghcr.io/immich-app/immich-machine-learning:release
+Volume=%h/volumes/immich/ml-cache:/cache:Z
+Network=immich.network
+DNS=1.1.1.1
+DNS=8.8.8.8
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
