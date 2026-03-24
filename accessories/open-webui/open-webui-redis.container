@@ -1,0 +1,17 @@
+[Unit]
+Description=Valkey for Open-WebUI
+
+[Container]
+ContainerName=open-webui-redis
+Image=docker.io/valkey/valkey:8-alpine
+Exec=valkey-server --save 30 1 --loglevel warning
+Volume=%h/volumes/open-webui-redis/data:/data:Z
+UserNS=keep-id:uid=999,gid=1000
+Network=open-webui_db.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

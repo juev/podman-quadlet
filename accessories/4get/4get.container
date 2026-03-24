@@ -1,0 +1,21 @@
+[Unit]
+Description=4get metasearch engine
+
+[Container]
+ContainerName=4get
+Image=docker.io/luuul/4get:latest
+Environment=FOURGET_SERVER_NAME=search.example.org
+Environment=FOURGET_PROTO=http
+Environment=FOURGET_DEFAULT_THEME=Light
+Volume=%h/volumes/4get/themes:/var/www/html/4get/static/themes:Z
+Volume=%h/volumes/4get/custom/settings.php:/var/www/html/4get/settings.php:Z
+Volume=%h/volumes/4get/custom/frontend.php:/var/www/html/4get/lib/frontend.php:Z
+Volume=%h/volumes/4get/icons:/var/www/html/4get/icons:Z
+Network=caddy-private.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

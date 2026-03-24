@@ -1,0 +1,131 @@
+groups:
+  - name: host
+    rules:
+      - alert: HostOutOfDiskSpace
+        expr: >
+          node_filesystem_avail_bytes{fstype!~"^(fuse.*|tmpfs|cifs|nfs)"}
+          / node_filesystem_size_bytes < 0.10
+          and on(instance, device, mountpoint) node_filesystem_readonly == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Disk < 10% free ({{ $labels.instance }})"
+          description: "{{ $labels.mountpoint }}: {{ $value | humanizePercentage }} free"
+
+      - alert: HostOutOfInodes
+        expr: >
+          node_filesystem_files_free / node_filesystem_files < 0.10
+          and on(instance, device, mountpoint) node_filesystem_readonly == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Inodes < 10% free ({{ $labels.instance }})"
+          description: "{{ $labels.mountpoint }}: {{ $value | humanizePercentage }} free"
+
+      - alert: HostHighCpuLoad
+        expr: >
+          1 - avg without(cpu)(rate(node_cpu_seconds_total{mode="idle"}[5m])) > 0.80
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU > 80% ({{ $labels.instance }})"
+          description: "CPU load: {{ $value | humanizePercentage }}"
+
+      - alert: HostMemoryPressure
+        expr: rate(node_vmstat_pgmajfault[5m]) > 1000
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory pressure ({{ $labels.instance }})"
+          description: "Major page faults: {{ $value }}/s"
+
+      - alert: HostSwapFillingUp
+        expr: >
+          (1 - node_memory_SwapFree_bytes / node_memory_SwapTotal_bytes) * 100 > 80
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Swap > 80% ({{ $labels.instance }})"
+          description: "Swap usage: {{ $value }}%"
+
+      - alert: HostSystemdServiceFailed
+        expr: node_systemd_unit_state{state="failed"} == 1
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Systemd service failed ({{ $labels.instance }})"
+          description: "Service {{ $labels.name }} is in failed state"
+
+      - alert: HostClockSkew
+        expr: >
+          (node_timex_offset_seconds > 0.05 and deriv(node_timex_offset_seconds[5m]) >= 0)
+          or
+          (node_timex_offset_seconds < -0.05 and deriv(node_timex_offset_seconds[5m]) <= 0)
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Clock skew detected ({{ $labels.instance }})"
+          description: "Clock offset: {{ $value }}s"
+
+  - name: prometheus
+    rules:
+      - alert: PrometheusTargetMissing
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Target down ({{ $labels.instance }})"
+          description: "Job {{ $labels.job }}, instance {{ $labels.instance }} is down"
+
+      - alert: PrometheusAllTargetsMissing
+        expr: sum by (job) (up) == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "All targets missing for job {{ $labels.job }}"
+          description: "No living targets in job {{ $labels.job }}"
+
+      - alert: PrometheusConfigReloadFailure
+        expr: prometheus_config_last_reload_successful != 1
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Config reload failed ({{ $labels.instance }})"
+          description: "Prometheus configuration reload error"
+
+      - alert: PrometheusTooManyRestarts
+        expr: changes(process_start_time_seconds{job=~"prometheus|alertmanager"}[15m]) > 2
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Too many restarts ({{ $labels.instance }})"
+          description: "{{ $labels.job }} restarted >2 times in 15m"
+
+      - alert: PrometheusNotConnectedToAlertmanager
+        expr: prometheus_notifications_alertmanagers_discovered < 1
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Prometheus not connected to Alertmanager"
+          description: "Prometheus cannot discover any Alertmanager instance"
+
+      - alert: BackupStale
+        expr: time() - restic_backup_last_success_timestamp > 93600
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Backup stale on {{ $labels.instance }}"
+          description: "Last successful restic backup was more than 26 hours ago"

@@ -1,0 +1,34 @@
+{
+  "acls": [
+    {
+      "action": "accept",
+      "src": [
+        "*"
+      ],
+      "dst": [
+        "*:*"
+      ]
+    }
+  ],
+  "ssh": [
+    {
+      "action": "accept",
+      "src": ["autogroup:member"],
+      "dst": ["autogroup:self", "tag:ssh"],
+      "users":  ["autogroup:nonroot", "root"]
+    }
+  ],
+  "tagOwners": {
+    "tag:router": ["user@"],
+    "tag:container": ["user@"],
+    "tag:ssh": ["user@"],
+    "tag:exit-node": ["user@"]
+  },
+  "autoApprovers": {
+    "exitNode": ["tag:exit-node"],
+    "routes": {
+      "0.0.0.0/0": ["tag:exit-node"],
+      "::/0": ["tag:exit-node"]
+    }
+  }
+}

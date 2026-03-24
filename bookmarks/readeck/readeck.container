@@ -1,0 +1,23 @@
+[Unit]
+Description=Readeck read-it-later
+After=network-online.target
+
+[Container]
+ContainerName=readeck
+Image=codeberg.org/readeck/readeck:latest
+Volume=%h/volumes/readeck/data:/readeck:Z
+Environment=READECK_LOG_LEVEL=info
+Environment=READECK_SERVER_HOST=0.0.0.0
+Environment=READECK_SERVER_PORT=8000
+Environment=READECK_SERVER_BASE_URL=https://readeck.example.org
+EnvironmentFile=%h/volumes/readeck/.env
+Network=caddy.network
+DNS=1.1.1.1
+DNS=8.8.8.8
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

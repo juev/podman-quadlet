@@ -1,7 +1,7 @@
 # Podman Quadlet
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Services](https://img.shields.io/badge/services-39-green.svg)](#available-services)
+[![Services](https://img.shields.io/badge/services-44-green.svg)](#available-services)
 [![Podman](https://img.shields.io/badge/Podman-4.4%2B-blueviolet.svg)](https://podman.io/)
 
 Ready-to-use **Podman Quadlet** service definitions for systemd — a rootless, daemonless, compose-free
@@ -56,12 +56,13 @@ systemctl --user start linkding
 ## Available Services
 
 <details>
-<summary><b>Accessories</b> — infrastructure and utility services (15)</summary>
+<summary><b>Accessories</b> — infrastructure and utility services (18)</summary>
 
 | Service | Description |
 | --- | --- |
+| [4get](./accessories/4get/) | Privacy-respecting metasearch engine |
 | [baikal](./accessories/baikal/) | Lightweight CalDAV+CardDAV server |
-| [caddy](./accessories/caddy/) | HTTPS reverse proxy with automatic TLS |
+| [caddy](./accessories/caddy/) | HTTPS reverse proxy with automatic TLS (public + private Tailscale-only) |
 | [cloudflared](./accessories/cloudflared/) | Cloudflare Tunnel client |
 | [firefly](./accessories/firefly/) | Personal finances manager (+ PostgreSQL) |
 | [headplane](./accessories/headplane/) | Web UI for Headscale |
@@ -71,6 +72,7 @@ systemctl --user start linkding
 | [mtg](./accessories/mtg/) | MTPROTO proxy for Telegram |
 | [n8n](./accessories/n8n/) | Workflow automation tool |
 | [nullclaw](./accessories/nullclaw/) | AI assistant gateway with Telegram bot and model routing |
+| [open-webui](./accessories/open-webui/) | AI chat interface with multi-model support (+ PostgreSQL + Valkey) |
 | [pocket-id](./accessories/pocket-id/) | Lightweight OIDC provider |
 | [searxng](./accessories/searxng/) | Privacy-respecting metasearch engine (+ Valkey) |
 | [versitygw](./accessories/versitygw/) | S3-compatible gateway |
@@ -79,7 +81,7 @@ systemctl --user start linkding
 </details>
 
 <details>
-<summary><b>Bookmarks</b> — bookmark and read-later services (7)</summary>
+<summary><b>Bookmarks</b> — bookmark and read-later services (8)</summary>
 
 | Service | Description |
 | --- | --- |
@@ -88,6 +90,7 @@ systemctl --user start linkding
 | [linkace](./bookmarks/linkace/) | Self-hosted link archive (+ MariaDB + Redis) |
 | [linkding](./bookmarks/linkding/) | Self-hosted bookmark manager |
 | [linkwarden](./bookmarks/linkwarden/) | Collaborative bookmark manager (+ PostgreSQL) |
+| [readeck](./bookmarks/readeck/) | Read-it-later service with full-text extraction |
 | [shiori](./bookmarks/shiori/) | Simple bookmarks manager written in Go |
 | [wallabag](./bookmarks/wallabag/) | Read-later service (+ Redis) |
 

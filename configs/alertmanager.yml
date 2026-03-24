@@ -41,7 +41,7 @@ receivers:
       - to: 'admin@example.org'
         send_resolved: true
     webhook_configs:
-      - url: 'http://alertmanager:CHANGE_ME@ntfy:80/alerts'
+      - url: 'http://alertmanager:CHANGE_ME@ntfy:80/alerts?template=alertmanager'
         send_resolved: true
 
   - name: warning-telegram
@@ -57,10 +57,10 @@ receivers:
           {{ .Annotations.description }}
           {{ end }}
     webhook_configs:
-      - url: 'http://alertmanager:CHANGE_ME@ntfy:80/alerts'
+      - url: 'http://alertmanager:CHANGE_ME@ntfy:80/alerts?template=alertmanager'
         send_resolved: true
 
   - name: ntfy-default
     webhook_configs:
-      - url: 'http://alertmanager:CHANGE_ME@ntfy:80/alerts'
+      - url: 'http://alertmanager:CHANGE_ME@ntfy:80/alerts?template=alertmanager'
         send_resolved: true

@@ -1,0 +1,22 @@
+[Unit]
+Description=PostgreSQL for Open-WebUI
+
+[Container]
+ContainerName=open-webui-db
+Image=docker.io/pgvector/pgvector:pg17
+Volume=%h/volumes/open-webui-db/data:/var/lib/postgresql/data:Z
+Volume=%h/.config/containers/systemd/configs/open-webui/init.sql:/docker-entrypoint-initdb.d/init.sql:ro,Z
+EnvironmentFile=%h/.config/containers/systemd/open-webui/open-webui-db.env
+EnvironmentFile=%h/volumes/open-webui/.env
+UserNS=keep-id:uid=999,gid=999
+Network=open-webui_db.network
+HealthCmd=pg_isready -U owui -d openwebui
+HealthInterval=10s
+HealthStartPeriod=30s
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

@@ -5,6 +5,7 @@ After=network-online.target
 [Container]
 ContainerName=caddy
 Image=ghcr.io/juev/caddy:latest
+Exec=caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
 PublishPort=80:80
 PublishPort=443:443
 PublishPort=443:443/udp
@@ -12,12 +13,7 @@ Volume=%h/volumes/caddy/data:/data:Z
 Volume=%h/volumes/caddy/config:/config:Z
 Volume=%h/.config/containers/systemd/configs/Caddyfile:/etc/caddy/Caddyfile:ro,Z
 Volume=%h/volumes/caddy/site:/srv:ro,Z
-Volume=sockets.volume:/run/sockets:ro
-Volume=%t/podman/podman.sock:/var/run/docker.sock:ro
 Environment=CLOUDFLARE_API_TOKEN=CHANGE_ME
-Environment=CADDY_DOCKER_CADDYFILE_PATH=/etc/caddy/Caddyfile
-Environment=CADDY_DOCKER_EXPOSEDBYDEFAULT=false
-Environment=CADDY_DOCKER_NO_SCOPE=true
 Network=caddy.network
 DNS=1.1.1.1
 DNS=8.8.8.8

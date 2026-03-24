@@ -1,0 +1,22 @@
+[Unit]
+Description=Caddy private (Tailscale-only)
+After=tailscale-caddy.service
+Requires=tailscale-caddy.service
+
+[Container]
+ContainerName=caddy-private
+Image=ghcr.io/juev/caddy:latest
+Exec=caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+Network=tailscale-caddy.container
+Environment=CLOUDFLARE_API_TOKEN=CHANGE_ME
+Volume=%h/.config/containers/systemd/configs/Caddyfile-private:/etc/caddy/Caddyfile:ro,Z
+Volume=%h/volumes/caddy-private/data:/data:Z
+Volume=%h/volumes/caddy-private/config:/config:Z
+Volume=sockets.volume:/run/sockets:ro
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

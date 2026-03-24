@@ -1,0 +1,24 @@
+[Unit]
+Description=Tailscale sidecar for Caddy private
+After=network-online.target
+
+[Container]
+ContainerName=tailscale-caddy
+Image=docker.io/tailscale/tailscale:latest
+Network=caddy-private.network
+AddCapability=NET_ADMIN
+AddDevice=/dev/net/tun
+Environment=TS_AUTHKEY=CHANGE_ME
+Environment=TS_STATE_DIR=/var/lib/tailscale
+Environment=TS_HOSTNAME=loffe-private
+Environment=TS_EXTRA_ARGS=--login-server=https://scale.example.org
+Environment=TS_NETFILTER_MODE=off
+Environment=TS_USERSPACE=false
+Volume=%h/volumes/tailscale-caddy:/var/lib/tailscale:Z
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
