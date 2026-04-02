@@ -1,0 +1,16 @@
+[Unit]
+Description=Standard Notes Web App
+After=standardnotes.service
+
+[Container]
+ContainerName=standardnotes-web
+Image=docker.io/standardnotes/web
+Volume=%h/.config/containers/systemd/configs/standardnotes/nginx.conf:/etc/nginx/conf.d/default.conf:ro,Z
+Network=caddy.network
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

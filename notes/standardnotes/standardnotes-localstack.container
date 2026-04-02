@@ -1,17 +1,18 @@
 [Unit]
-Description=Standard Notes LocalStack
+Description=LocalStack (SNS/SQS) for Standard Notes
 After=network-online.target
 
 [Container]
 ContainerName=standardnotes-localstack
-Image=docker.io/localstack/localstack:3
-Environment=SERVICES=sns,sqs,s3
-Environment=HOSTNAME_EXTERNAL=localstack
+Image=docker.io/localstack/localstack:3.0
+Environment=SERVICES=sns,sqs
+Environment=HOSTNAME_EXTERNAL=standardnotes-localstack
+Environment=LS_LOG=warn
+Volume=%h/.config/containers/systemd/configs/standardnotes/localstack_bootstrap.sh:/etc/localstack/init/ready.d/localstack_bootstrap.sh:ro,Z
 Network=standardnotes.network
 
 [Service]
 Restart=always
-TimeoutStartSec=900
 
 [Install]
 WantedBy=default.target

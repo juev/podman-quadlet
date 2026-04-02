@@ -1,0 +1,18 @@
+[Unit]
+Description=Redis for Standard Notes
+
+[Container]
+ContainerName=standardnotes-cache
+Image=docker.io/library/redis:6.0-alpine
+Volume=%h/volumes/standardnotes/redis:/data:Z
+Network=standardnotes.network
+HealthCmd=redis-cli ping
+HealthInterval=10s
+HealthStartPeriod=10s
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

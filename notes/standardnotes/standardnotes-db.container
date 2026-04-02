@@ -1,17 +1,22 @@
 [Unit]
-Description=Standard Notes MySQL
-After=network-online.target
+Description=MySQL for Standard Notes
 
 [Container]
 ContainerName=standardnotes-db
 Image=docker.io/library/mysql:8
-Volume=%h/volumes/standardnotes/mysql:/var/lib/mysql
-EnvironmentFile=%h/volumes/standardnotes/.env
+Volume=%h/volumes/standardnotes/mysql:/var/lib/mysql:Z
+Environment=MYSQL_DATABASE=standard_notes_db
+Environment=MYSQL_USER=std_notes_user
+Environment=MYSQL_ROOT_PASSWORD=changeme
+Environment=MYSQL_PASSWORD=changeme
 Network=standardnotes.network
+HealthCmd=mysqladmin ping -h localhost -u root -pchangeme
+HealthInterval=10s
+HealthStartPeriod=30s
+AutoUpdate=registry
 
 [Service]
 Restart=always
-TimeoutStartSec=900
 
 [Install]
 WantedBy=default.target

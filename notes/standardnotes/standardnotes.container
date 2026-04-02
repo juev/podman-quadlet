@@ -1,22 +1,25 @@
 [Unit]
 Description=Standard Notes Server
-After=network-online.target
-After=standardnotes-db.service
-After=standardnotes-redis.service
-After=standardnotes-localstack.service
+After=standardnotes-db.service standardnotes-cache.service standardnotes-localstack.service
+Requires=standardnotes-db.service standardnotes-cache.service standardnotes-localstack.service
 
 [Container]
 ContainerName=standardnotes
-Image=docker.io/standardnotes/server:latest
-Volume=%h/volumes/standardnotes/logs:/var/lib/server/logs
-Volume=%h/volumes/standardnotes/uploads:/opt/server/packages/files/dist/uploads
+Image=docker.io/standardnotes/server
 EnvironmentFile=%h/volumes/standardnotes/.env
-Network=caddy.network
+Volume=%h/volumes/standardnotes/logs:/var/lib/server/logs:Z
+Volume=%h/volumes/standardnotes/uploads:/opt/server/packages/files/dist/uploads:Z
 Network=standardnotes.network
+Network=caddy.network
+HealthCmd=curl -fsS http://127.0.0.1:3000/healthcheck || exit 1
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=30s
+AutoUpdate=registry
 
 [Service]
 Restart=always
-TimeoutStartSec=900
 
 [Install]
 WantedBy=default.target
